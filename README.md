@@ -1,13 +1,23 @@
 TODO : finish writing this doc
 
+# ScrapOrchestra Midi Controller
 
+![prototype on a wood board, with ESP32S3, breadboard and resistors](doc/prototype.png)
+*a basic solder-less prototype with resistors and a breadboard*
 
+<hr>
 
 This is a minimal port of Sparkfun [MaKeyMakey](https://github.com/sparkfun/MaKeyMaKey) for ESP32S3. Which uses high-impedance resistors ( ~ 20МΩ ) and digital filtering to detect contact through media like human skin. 
 
 This version is different in that it exposes a USB-MIDI device instead of the keyboard/mouse HID used in the original code. 
 
 I picked ESP32S3 because I already had a couple of those boards available. But given the simplicity of the code it should work with many other versions as long as they support USB device stack. 
+
+
+## Usage
+
+Although it was primarily made to be used in conjunction with a Raspberry Pi running [ScrapOrchestra](https://github.com/OlivierSch755/scraporchestra), it can still work as a standalone USB MIDI device.
+In which case default config will have it send MIDI *note on* events matching common MIDI drum notes, such as kick (36) and snare (38) drums... (those are on channel 9 (zero-indexed)).
 
 
 ## Build
