@@ -14,7 +14,7 @@ I picked ESP32S3 because I already had a couple of those boards available. But g
 
 Project requires [ESP-IDF 5.4](https://dl.espressif.com/dl/esp-idf/)
 
-Once installed and sourced, simply follow the regular ESP-IDF steps:
+Once installed and sourced, simply follow the regular ESP-IDF build steps:
 
 ```sh
 
@@ -62,3 +62,44 @@ class rez1 mult;
 class GPIO mult;
 
 ```
+
+Note that if you are using the controller with a USB connection to a Raspberry Pi 4 with a HifiBerry DAC (or DAC+ADC) you can skip the whole GND line. 
+
+The reason for this is that:
+* ESP32 GND = USB GND
+* USB GND = RCA GND (provided you do not use galvanic isolation)
+* RCA GND = preamp GND
+* preamp GND = Guitar GND
+
+So basically anything conductive on the guitar (strings included) is already acting as a GND pad. 
+
+Therefore, this uncommon but interesting layout is possible: 
+
+```mermaid
+flowchart TD
+
+vref["ESP32\nVref (3.3V)"]
+gnd["ESP32\nGND"]
+
+rez1["20МΩ Resistor"]
+
+vref o--o rez1 
+GPIO[ESP32\nGPIO] o--o rez1
+
+rez1 o--o  pad1 
+gnd o-----o|"GND shared\nthrough USB \n& instrument cable"| pad2
+
+pad1("conductive pad")
+pad2("Guitar strings")
+
+pad1 <..->|human skin contact| pad2
+
+
+classDef mult stroke:#f700f7,stroke-width:2px
+class pad1 mult;
+class rez1 mult;
+class GPIO mult;
+```
+
+
+
