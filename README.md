@@ -32,3 +32,33 @@ idf.py monitor
 
 ```
 
+## Schematics 
+
+To add more inputs, simply duplicate the pink elements. 
+
+```mermaid
+flowchart TD
+
+vref["ESP32\nVref (3.3V)"]
+gnd["ESP32\nGND"]
+
+rez1["20МΩ Resistor"]
+
+vref o--o rez1 
+GPIO[ESP32\nGPIO] o--o rez1
+
+rez1 o--o  pad1 
+gnd o-----o pad2
+
+pad1("conductive pad")
+pad2("conductive pad\n(GND)")
+
+pad1 <..->|human skin contact| pad2
+
+
+classDef mult stroke:#f700f7,stroke-width:2px
+class pad1 mult;
+class rez1 mult;
+class GPIO mult;
+
+```
